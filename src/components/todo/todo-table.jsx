@@ -9,8 +9,9 @@ import { useState } from "react";
 import TodoRow from "./todo-row";
 import { TodoDetails } from "./todo-details";
 import { Badge } from "../ui/badge";
+import { Spinner } from "../ui/spinner";
 
-export default function TodoTable({ todos = [] }) {
+export default function TodoTable({ todos = [], search, isLoading, isError }) {
   const [selectedTodoId, setSelectedTodoId] = useState();
   const [open, setOpen] = useState(false);
 
@@ -18,6 +19,44 @@ export default function TodoTable({ todos = [] }) {
     setSelectedTodoId(todoId);
     setOpen(true);
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-[60vh] flex justify-center items-center">
+        <Spinner className="size-6" />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center px-6">
+        <div className="text-center space-y-2">
+          <p className="text-sm text-destructive">Failed to load tasks.</p>
+          <p className="text-xs text-muted-foreground">
+            Please refresh and try again.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isLoading && todos.length === 0) {
+    return (
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16 text-center text-muted-foreground">
+        {search && (
+          <>
+            <p className="text-base font-medium break-words max-w-full">
+              No results found for "{search}"
+            </p>
+            <p className="text-sm mt-1">
+              Try adjusting your search or filters.
+            </p>
+          </>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">

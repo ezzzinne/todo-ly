@@ -3,31 +3,49 @@ import TodoTable from "./todo-table";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "../ui/spinner";
 import { useTasks } from "@/hooks/useTasks";
+import { Input } from "../ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useDebounce } from "use-debounce";
 
 const PER_PAGE = 10;
 
 export default function TodoPage() {
   const [page, setPage] = useState(1);
-  const { todos, meta, isError, isLoading } = useTasks(page, PER_PAGE);
+  const [search, setSearch] = useState("");
+  const [status, setStatus] = useState("ALL");
+  const [debouncedSearch] = useDebounce(search, 400);
+  const { todos, meta, isError, isLoading } = useTasks(
+    page,
+    PER_PAGE,
+    debouncedSearch,
+    status,
+  );
 
-  if (isLoading)
-    return (
-      <div className="min-h-[60vh] flex justify-center items-center">
-        <Spinner className="size-6" />
-      </div>
-    );
-  if (isError) {
-    return (
-      <div className="min-h-[60vh] flex items-center justify-center px-6">
-        <div className="text-center space-y-2">
-          <p className="text-sm text-destructive">Failed to load tasks.</p>
-          <p className="text-xs text-muted-foreground">
-            Please refresh and try again.
-          </p>
-        </div>
-      </div>
-    );
-  }
+  const filteredTodos = todos.filter((todo) => {
+    const matchesSearch = todo.name
+      .toLowerCase()
+      .includes(search.toLowerCase());
+
+    const matchesStatus = status === "ALL" ? true : todo.status === status;
+
+    return matchesSearch && matchesStatus;
+  });
+
+  const handleSearchChange = (value) => {
+    setSearch(value);
+    setPage(1);
+  };
+
+  const handleStatusChange = (value) => {
+    setStatus(value);
+    setPage(1);
+  };
 
   return (
     <div className=" space-y-4">
@@ -35,7 +53,44 @@ export default function TodoPage() {
         <h1 className="text-xl sm:text-2xl font-semibold">All Todos</h1>
       </div>
 
-      <TodoTable todos={todos} />
+      <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between mb-4">
+        <div className="relative w-full sm:max-w-sm">
+          <Input
+            placeholder="Search todos..."
+            value={search}
+            onChange={(e) => handleSearchChange(e.target.value)}
+            className="w-full pr-10"
+          />
+
+          {search && (
+            <button
+              onClick={() => handleSearchChange("")}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground text-sm px-2 cursor-pointer"
+            >
+              x
+            </button>
+          )}
+        </div>
+
+        <Select value={status} onValueChange={handleStatusChange}>
+          <SelectTrigger className="w-full sm:w-[180px]">
+            <SelectValue placeholder="Filter by status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="ALL">All</SelectItem>
+            <SelectItem value="TODO">Todo</SelectItem>
+            <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
+            <SelectItem value="DONE">Done</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <TodoTable
+        todos={filteredTodos}
+        isLoading={isLoading}
+        isError={isError}
+        search={search}
+      />
 
       <div className="flex items-center justify-between sm:justify-end gap-2 pt-2">
         <Button
