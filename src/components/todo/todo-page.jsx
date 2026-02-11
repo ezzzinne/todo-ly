@@ -12,32 +12,45 @@ export default function TodoPage() {
 
   if (isLoading)
     return (
-      <div className="flex justify-center items-center">
+      <div className="min-h-[60vh] flex justify-center items-center">
         <Spinner className="size-6" />
       </div>
     );
-  if (isError) return <p>Failed to load tasks</p>;
+  if (isError) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center px-6">
+        <div className="text-center space-y-2">
+          <p className="text-sm text-destructive">Failed to load tasks.</p>
+          <p className="text-xs text-muted-foreground">
+            Please refresh and try again.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="p-6 space-y-4">
-      <div className="flex justify-between items-center">
-        <h1 className="text-xl font-semibold mb-4">Tasks</h1>
+    <div className=" space-y-4">
+      <div className="items-start sm:items-center">
+        <h1 className="text-xl sm:text-2xl font-semibold">All Todos</h1>
       </div>
 
       <TodoTable todos={todos} />
 
-      <div className="flex gap-2 justify-end items-center">
+      <div className="flex items-center justify-between sm:justify-end gap-2 pt-2">
         <Button
+          className="cursor-pointer"
           variant="outline"
-          disabled={page === 1}
+          disabled={!meta?.hasPreviousPage}
           onClick={() => setPage((page) => page - 1)}
         >
           Prev
         </Button>
-        <span className="px-2 text-sm">
+        <div className="text-xs sm:text-sm text-muted-foreground px-2">
           Page {page} of {meta?.totalPages}
-        </span>
+        </div>
         <Button
+          className="cursor-pointer"
           variant="outline"
           disabled={!meta?.hasNextPage}
           onClick={() => setPage((page) => page + 1)}

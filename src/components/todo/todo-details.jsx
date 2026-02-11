@@ -4,6 +4,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Spinner } from "@/components/ui/spinner";
@@ -11,14 +12,14 @@ import { Spinner } from "@/components/ui/spinner";
 export function TodoDetails({ id, open, onOpenChange }) {
   const { todo, isError, isLoading } = useTask(id, open);
 
-  // console.log(id)
-  // console.log(typeof id)
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg">
-        <DialogHeader>
-          <DialogTitle>Todo Details</DialogTitle>
+      <DialogContent className="w-[calc(100vw-2rem)] sm:max-w-lg max-h-[85vh] overflow-y-auto">
+        <DialogHeader className="space-y-2">
+          <DialogTitle className="text-lg">Todo Details</DialogTitle>
+          <DialogDescription>
+            View detailed information about this task.
+          </DialogDescription>
         </DialogHeader>
 
         {isLoading && (
@@ -27,13 +28,17 @@ export function TodoDetails({ id, open, onOpenChange }) {
           </div>
         )}
 
-        {isError && <p className="text-destructive">Failed to load task.</p>}
+        {isError && (
+          <p className="text-sm text-destructive">Failed to load task.</p>
+        )}
 
         {todo && (
           <div className="space-y-6 text-sm">
-            <div>
+            <div className="space-y-1">
               <h3 className="text-base font-semibold">{todo.name}</h3>
-              <p className="text-muted-foreground mt-1">{todo.description}</p>
+              <p className="text-muted-foreground mt-1">
+                {todo.description || "No description"}
+              </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
