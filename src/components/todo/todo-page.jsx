@@ -49,11 +49,7 @@ export default function TodoPage() {
 
   return (
     <div className=" space-y-4">
-      <div className="items-start sm:items-center">
-        <h1 className="text-xl sm:text-2xl font-semibold">All Todos</h1>
-      </div>
-
-      <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between mb-4">
+      <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between mt-4">
         <div className="relative w-full sm:max-w-sm">
           <Input
             placeholder="Search todos..."
