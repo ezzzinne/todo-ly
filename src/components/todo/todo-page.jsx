@@ -1,7 +1,6 @@
 import { useState } from "react";
 import TodoTable from "./todo-table";
 import { Button } from "@/components/ui/button";
-import { Spinner } from "../ui/spinner";
 import { useTasks } from "@/hooks/useTasks";
 import { Input } from "../ui/input";
 import {
@@ -12,6 +11,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useDebounce } from "use-debounce";
+import { api } from "@/lib/axios";
+import { CreateTodo } from "@/components/todo/create-todo";
 
 const PER_PAGE = 10;
 
@@ -20,7 +21,8 @@ export default function TodoPage() {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("ALL");
   const [debouncedSearch] = useDebounce(search, 400);
-  const { todos, meta, isError, isLoading } = useTasks(
+  const [createOpen, setCreateOpen] = useState(false);
+  const { todos, meta, isError, isLoading, mutate } = useTasks(
     page,
     PER_PAGE,
     debouncedSearch,
@@ -68,17 +70,25 @@ export default function TodoPage() {
           )}
         </div>
 
-        <Select value={status} onValueChange={handleStatusChange}>
-          <SelectTrigger className="w-full sm:w-[180px]">
-            <SelectValue placeholder="Filter by status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="ALL">All</SelectItem>
-            <SelectItem value="TODO">Todo</SelectItem>
-            <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
-            <SelectItem value="DONE">Done</SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="flex gap-2 w-full sm:w-auto">
+          <Button
+            onClick={() => setCreateOpen(true)}
+            className="whitespace-nowrap cursor-pointer"
+          >
+            + New Todo
+          </Button>
+          <Select value={status} onValueChange={handleStatusChange}>
+            <SelectTrigger className="w-full sm:w-[180px]">
+              <SelectValue placeholder="Filter by status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="ALL">All</SelectItem>
+              <SelectItem value="TODO">Todo</SelectItem>
+              <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
+              <SelectItem value="DONE">Done</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       <TodoTable
@@ -86,6 +96,17 @@ export default function TodoPage() {
         isLoading={isLoading}
         isError={isError}
         search={search}
+        mutate={mutate}
+      />
+
+      <CreateTodo
+        open={createOpen}
+        onOpenChange={setCreateOpen}
+        onCreate={async (newTodo) => {
+          await api.post("/tasks", newTodo);
+          mutate();
+          setCreateOpen(false);
+        }}
       />
 
       <div className="flex items-center justify-between sm:justify-end gap-2 pt-2">

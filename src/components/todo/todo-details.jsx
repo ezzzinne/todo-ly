@@ -8,9 +8,11 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Spinner } from "@/components/ui/spinner";
+import { useAuth } from "@/hooks/useAuth";
 
 export function TodoDetails({ id, open, onOpenChange }) {
   const { todo, isError, isLoading } = useTask(id, open);
+  const { user } = useAuth();
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -29,7 +31,12 @@ export function TodoDetails({ id, open, onOpenChange }) {
         )}
 
         {isError && (
-          <p className="text-sm text-destructive">Failed to load task.</p>
+          <div className="text-center space-y-2">
+            <p className="text-sm text-destructive">Failed to load tasks.</p>
+            <p className="text-xs text-muted-foreground">
+              Please refresh and try again.
+            </p>
+          </div>
         )}
 
         {todo && (
@@ -53,12 +60,12 @@ export function TodoDetails({ id, open, onOpenChange }) {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <p className="text-muted-foreground mb-1">Owner</p>
-                <p>{todo.owner || "—"}</p>
+                <p>{todo.owner === user.id ? user.name : todo.owner || "—"}</p>
               </div>
 
               <div>
                 <p className="text-muted-foreground mb-1">Duration</p>
-                <p>{Math.round(todo.duration / 60) || "—"} hrs</p>
+                <p>{Math.round(todo.duration) || "—"} mins</p>
               </div>
             </div>
             <div>

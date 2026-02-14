@@ -14,7 +14,7 @@ export function useTasks(page, limit, search, status) {
 
   const query = params.toString();
 
-  const { data, error, isLoading } = useSWR(
+  const { data, error, isLoading, mutate } = useSWR(
     shouldFetch ? `/tasks?${query}` : null,
     fetcher,
     {
@@ -27,5 +27,6 @@ export function useTasks(page, limit, search, status) {
     meta: data?.meta ?? null,
     isLoading,
     isError: !!error,
+    mutate,
   };
 }

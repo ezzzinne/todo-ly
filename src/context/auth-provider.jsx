@@ -22,7 +22,7 @@ export function AuthProvider({ children }) {
 
     console.log(data.accessToken);
 
-    api.defaults.headers.common["Authorization"] = `Bearer ${data.accessToken}`;
+    // api.defaults.headers.common["Authorization"] = `Bearer ${data.accessToken}`;
   };
 
   const register = async (payload) => {
@@ -33,7 +33,7 @@ export function AuthProvider({ children }) {
     localStorage.setItem("user", JSON.stringify(data.user));
     localStorage.setItem("accessToken", data.accessToken);
 
-    api.defaults.headers.common["Authorization"] = `Bearer ${data.accessToken}`;
+    // api.defaults.headers.common["Authorization"] = `Bearer ${data.accessToken}`;
   };
 
   const logout = () => {

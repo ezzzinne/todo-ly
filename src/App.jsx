@@ -5,6 +5,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { Button } from "./components/ui/button";
 import Navbar from "./components/navbar";
 import { Spinner } from "@/components/ui/spinner";
+import ProtectedRoute from "./components/protected-route";
 
 const TodoPage = lazy(() => import("./components/todo/todo-page"));
 const NotFound = lazy(() => import("./pages/not-found"));
@@ -45,7 +46,14 @@ function App() {
           <Routes>
             <Route path="*" element={<NotFound />} />
             <Route path="/" element={<HomePage />} />
-            <Route path="/todo" element={<TodoPage />} />
+            <Route
+              path="/todo"
+              element={
+                <ProtectedRoute>
+                  <TodoPage></TodoPage>
+                </ProtectedRoute>
+              }
+            />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<SignupPage />} />
             <Route path="/error-test" element={<TestError />} />
