@@ -29,16 +29,6 @@ export default function TodoPage() {
     status,
   );
 
-  const filteredTodos = todos.filter((todo) => {
-    const matchesSearch = todo.name
-      .toLowerCase()
-      .includes(search.toLowerCase());
-
-    const matchesStatus = status === "ALL" ? true : todo.status === status;
-
-    return matchesSearch && matchesStatus;
-  });
-
   const handleSearchChange = (value) => {
     setSearch(value);
     setPage(1);
@@ -92,7 +82,7 @@ export default function TodoPage() {
       </div>
 
       <TodoTable
-        todos={filteredTodos}
+        todos={todos}
         isLoading={isLoading}
         isError={isError}
         search={search}
