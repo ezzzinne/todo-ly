@@ -22,7 +22,7 @@ export default function Navbar() {
       <div className="flex items-center justify-between px-6 md:px-8 py-4">
         <Link
           to="/"
-          className="text-xl font-semibold tracking-tight"
+          className="text-xl font-semibold tracking-tight cursor-pointer"
           onClick={closeMenu}
         >
           Todo-ly
@@ -32,16 +32,14 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-4">
           {!user ? (
             <>
-              <Link to="/todo">
-                <Button variant="ghost">View Public Todos</Button>
-              </Link>
-
               <Link to="/login">
-                <Button variant="outline">Login</Button>
+                <Button variant="outline" className="cursor-pointer">
+                  Login
+                </Button>
               </Link>
 
               <Link to="/register">
-                <Button>Sign Up</Button>
+                <Button className="cursor-pointer">Sign Up</Button>
               </Link>
             </>
           ) : (
@@ -50,11 +48,11 @@ export default function Navbar() {
                 Hi, {user.name}
               </span>
 
-              <Link to="/dashboard">
-                <Button variant="outline">Dashboard</Button>
-              </Link>
-
-              <Button variant="destructive" onClick={handleLogout}>
+              <Button
+                variant="destructive"
+                onClick={handleLogout}
+                className="cursor-pointer"
+              >
                 Logout
               </Button>
             </>
@@ -62,7 +60,10 @@ export default function Navbar() {
         </div>
 
         {/* Mobile View*/}
-        <button className="md:hidden" onClick={() => setOpen(!open)}>
+        <button
+          className="md:hidden cursor-pointer"
+          onClick={() => setOpen(!open)}
+        >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
@@ -71,20 +72,17 @@ export default function Navbar() {
         <div className="md:hidden px-6 pb-4 space-y-3">
           {!user ? (
             <>
-              <Link to="/todo" onClick={closeMenu}>
-                <Button variant="ghost" className="w-full mb-2">
-                  View Public Todos
-                </Button>
-              </Link>
-
               <Link to="/login" onClick={closeMenu}>
-                <Button variant="outline" className="w-full mb-2">
+                <Button
+                  variant="outline"
+                  className="w-full mb-2 cursor-pointer"
+                >
                   Login
                 </Button>
               </Link>
 
               <Link to="/register" onClick={closeMenu}>
-                <Button className="w-full mb-2">Sign Up</Button>
+                <Button className="w-full mb-2 cursor-pointer">Sign Up</Button>
               </Link>
             </>
           ) : (
@@ -93,15 +91,9 @@ export default function Navbar() {
                 Hi, {user.name}
               </span>
 
-              <Link to="/dashboard" onClick={closeMenu}>
-                <Button variant="outline" className="w-full mb-2">
-                  Dashboard
-                </Button>
-              </Link>
-
               <Button
                 variant="destructive"
-                className="w-full"
+                className="w-full cursor-pointer"
                 onClick={handleLogout}
               >
                 Logout

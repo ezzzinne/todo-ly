@@ -7,7 +7,7 @@ import Navbar from "./components/navbar";
 import { Spinner } from "@/components/ui/spinner";
 import ProtectedRoute from "./components/protected-route";
 
-const TodoPage = lazy(() => import("./components/todo/todo-page"));
+const TodoPage = lazy(() => import("./pages/todo-page"));
 const NotFound = lazy(() => import("./pages/not-found"));
 const LoginPage = lazy(() => import("./pages/login-page"));
 const HomePage = lazy(() => import("./pages/home-page"));

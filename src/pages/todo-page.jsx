@@ -1,8 +1,8 @@
 import { useState } from "react";
-import TodoTable from "./todo-table";
+import TodoTable from "../components/todo/todo-table";
 import { Button } from "@/components/ui/button";
 import { useTasks } from "@/hooks/useTasks";
-import { Input } from "../ui/input";
+import { Input } from "../components/ui/input";
 import {
   Select,
   SelectContent,

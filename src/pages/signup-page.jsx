@@ -39,7 +39,7 @@ export default function SignupPage() {
   const onSubmit = async (data) => {
     try {
       await registerUser(data);
-      navigate("/dashboard");
+      navigate("/todo");
     } catch (error) {
       console.error(error);
     }
@@ -84,7 +84,11 @@ export default function SignupPage() {
               )}
             </div>
 
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
+            <Button
+              type="submit"
+              className="w-full cursor-pointer"
+              disabled={isSubmitting}
+            >
               {isSubmitting ? "Creating account..." : "Sign Up"}
             </Button>
 

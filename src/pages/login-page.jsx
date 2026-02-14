@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 const loginSchema = z.object({
   email: z.email("Please enter a valid email."),
@@ -17,6 +18,7 @@ const loginSchema = z.object({
 export default function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
   const {
     register,
@@ -29,8 +31,9 @@ export default function LoginPage() {
   const onSubmit = async (data) => {
     try {
       await login(data);
-      navigate("/dashboard");
+      navigate("/todo");
     } catch (error) {
+      setError("Invalid email or password");
       console.error(error);
     }
   };
@@ -62,9 +65,14 @@ export default function LoginPage() {
                   {errors.password.message}
                 </p>
               )}
+              {error && <p className="text-sm text-destructive">{error}</p>}
             </div>
 
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
+            <Button
+              type="submit"
+              className="w-full cursor-pointer"
+              disabled={isSubmitting}
+            >
               {isSubmitting ? "Logging in..." : "Login"}
             </Button>
 
