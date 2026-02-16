@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 const signupSchema = z.object({
   name: z.string(),
@@ -27,6 +28,7 @@ const signupSchema = z.object({
 export default function SignupPage() {
   const { register: registerUser } = useAuth();
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
   const {
     register,
@@ -39,8 +41,9 @@ export default function SignupPage() {
   const onSubmit = async (data) => {
     try {
       await registerUser(data);
-      navigate("/todo");
+      navigate("/dashboard");
     } catch (error) {
+      setError("An account with this email already exists. Please log in.");
       console.error(error);
     }
   };
@@ -82,6 +85,7 @@ export default function SignupPage() {
                   {errors.password.message}
                 </p>
               )}
+              {error && <p className="text-sm text-destructive">{error}</p>}
             </div>
 
             <Button

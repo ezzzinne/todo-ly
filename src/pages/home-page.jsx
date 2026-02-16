@@ -16,21 +16,21 @@ export default function HomePage() {
             </h1>
 
             <p className="text-muted-foreground md:text-lg max-w-xl mx-auto">
-              Manage your tasks efficiently, track progress, and stay productive
-              with our simple todo system.
+              Sign up to manage your tasks efficiently, track progress, and stay
+              productive with our simple todo system.
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
               {!user ? (
                 <>
-                  <Link to="/login" className="w-full sm:w-auto">
+                  <Link to="/register" className="w-full sm:w-auto">
                     <Button size="lg" className="w-full cursor-pointer">
                       Get Started
                     </Button>
                   </Link>
                 </>
               ) : (
-                <Link to="/todo" className="w-full sm:w-auto">
+                <Link to="/dashboard" className="w-full sm:w-auto">
                   <Button size="lg" className="w-full cursor-pointer">
                     Get Started
                   </Button>

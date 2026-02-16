@@ -31,7 +31,7 @@ export default function LoginPage() {
   const onSubmit = async (data) => {
     try {
       await login(data);
-      navigate("/todo");
+      navigate("/dashboard");
     } catch (error) {
       setError("Invalid email or password");
       console.error(error);

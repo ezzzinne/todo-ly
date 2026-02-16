@@ -32,6 +32,12 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-4">
           {!user ? (
             <>
+              <Link to="/todo">
+                <Button variant="ghost" className="cursor-pointer">
+                  View Public Tasks
+                </Button>
+              </Link>
+
               <Link to="/login">
                 <Button variant="outline" className="cursor-pointer">
                   Login
@@ -44,9 +50,11 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <span className="text-sm text-muted-foreground">
-                Hi, {user.name}
-              </span>
+              <Link to="/todo">
+                <Button variant="ghost" className="cursor-pointer">
+                  View Public Tasks
+                </Button>
+              </Link>
 
               <Button
                 variant="destructive"
@@ -72,6 +80,12 @@ export default function Navbar() {
         <div className="md:hidden px-6 pb-4 space-y-3">
           {!user ? (
             <>
+              <Link to="/todo" onClick={closeMenu}>
+                <Button variant="ghost" className="w-full mb-2 cursor-pointer">
+                  View Public Todos
+                </Button>
+              </Link>
+
               <Link to="/login" onClick={closeMenu}>
                 <Button
                   variant="outline"
@@ -87,9 +101,11 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <span className="block text-sm text-muted-foreground pb-2">
-                Hi, {user.name}
-              </span>
+              <Link to="/todo" onClick={closeMenu}>
+                <Button variant="ghost" className="w-full mb-2 cursor-pointer">
+                  View Public Todos
+                </Button>
+              </Link>
 
               <Button
                 variant="destructive"

@@ -12,6 +12,7 @@ const NotFound = lazy(() => import("./pages/not-found"));
 const LoginPage = lazy(() => import("./pages/login-page"));
 const HomePage = lazy(() => import("./pages/home-page"));
 const SignupPage = lazy(() => import("./pages/signup-page"));
+const DashboardPage = lazy(() => import("./pages/dashboard-page"));
 
 function ErrorFallback({ error, resetErrorBoundary }) {
   return (
@@ -46,11 +47,12 @@ function App() {
           <Routes>
             <Route path="*" element={<NotFound />} />
             <Route path="/" element={<HomePage />} />
+            <Route path="/todo" element={<TodoPage></TodoPage>} />
             <Route
-              path="/todo"
+              path="/dashboard"
               element={
                 <ProtectedRoute>
-                  <TodoPage></TodoPage>
+                  <DashboardPage></DashboardPage>
                 </ProtectedRoute>
               }
             />

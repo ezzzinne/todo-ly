@@ -13,6 +13,9 @@ import {
 import { useDebounce } from "use-debounce";
 import { api } from "@/lib/axios";
 import { CreateTodo } from "@/components/todo/create-todo";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 
 const PER_PAGE = 10;
 
@@ -28,6 +31,8 @@ export default function TodoPage() {
     debouncedSearch,
     status,
   );
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   const handleSearchChange = (value) => {
     setSearch(value);
@@ -41,44 +46,57 @@ export default function TodoPage() {
 
   return (
     <div className=" space-y-4">
-      <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between mt-4">
-        <div className="relative w-full sm:max-w-sm">
-          <Input
-            placeholder="Search todos..."
-            value={search}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            className="w-full pr-10"
-          />
-
-          {search && (
-            <button
-              onClick={() => handleSearchChange("")}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground text-sm px-2 cursor-pointer"
-            >
-              x
-            </button>
-          )}
-        </div>
-
-        <div className="flex gap-2 w-full sm:w-auto">
+      <div className="flex flex-col gap-2 mt-4">
+        <div className="flex justify-between items-center">
           <Button
-            onClick={() => setCreateOpen(true)}
-            className="whitespace-nowrap cursor-pointer"
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate(user ? "/dashboard" : "/")}
+            className="flex items-center gap-2"
           >
-            + New Todo
+            <ArrowLeft className="w-4 h-4" />
+            {user ? "Back to Dashboard" : "Back to Home"}
           </Button>
-          <Select value={status} onValueChange={handleStatusChange}>
-            <SelectTrigger className="w-full sm:w-[180px]">
-              <SelectValue placeholder="Filter by status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="ALL">All</SelectItem>
-              <SelectItem value="TODO">Todo</SelectItem>
-              <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
-              <SelectItem value="DONE">Done</SelectItem>
-              <SelectItem value="CANCELLED">Cancelled</SelectItem>
-            </SelectContent>
-          </Select>
+        </div>
+        <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between mt-4">
+          <div className="relative w-full sm:max-w-sm">
+            <Input
+              placeholder="Search todos..."
+              value={search}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              className="w-full pr-10"
+            />
+
+            {search && (
+              <button
+                onClick={() => handleSearchChange("")}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground text-sm px-2 cursor-pointer"
+              >
+                x
+              </button>
+            )}
+          </div>
+
+          <div className="flex gap-2 w-full sm:w-auto">
+            {/* <Button
+              onClick={() => setCreateOpen(true)}
+              className="whitespace-nowrap cursor-pointer"
+            >
+              + New Todo
+            </Button> */}
+            <Select value={status} onValueChange={handleStatusChange}>
+              <SelectTrigger className="w-full sm:w-[180px]">
+                <SelectValue placeholder="Filter by status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="ALL">All</SelectItem>
+                <SelectItem value="TODO">Todo</SelectItem>
+                <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
+                <SelectItem value="DONE">Done</SelectItem>
+                <SelectItem value="CANCELLED">Cancelled</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
 
