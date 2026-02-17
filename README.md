@@ -80,6 +80,18 @@ A responsive task management application that allows users to view, create, edit
 
 <details>
 
+<summary>Dashboard</summary>
+
+| Desktop | Mobile |
+|----------|----------|
+| <img src="./src/assets/screenshots/desktop-dashboard.png" width="700"/> | <img src="./src/assets/screenshots/mobile-dashboard.png" width="300"/> |
+
+</details>
+
+---
+
+<details>
+
 <summary>Create Task</summary>
 
 | Desktop | Mobile |
@@ -128,6 +140,7 @@ A responsive task management application that allows users to view, create, edit
 - Search tasks (debounced input)
 - Filter by status (Todo, In Progress, Done)
 - Authentication (login/logout & register)
+- User Dashboard
 - CRUD Operations
 - Ownership-based permissions:
   - Public tasks can be edited/deleted
@@ -177,6 +190,7 @@ A responsive task management application that allows users to view, create, edit
  │    ├── axios.js
  │    └── fetcher.js
  ├── pages/
+ │    └── dashboard-page.jsx
  │    └── home-page.jsx
  │    ├── login-page.jsx
  │    ├── not-found.jsx
@@ -248,6 +262,8 @@ Note: A `vercel.json` rewrite rule is included to support React Router.
 - Public tasks (no owner) are editable by anyone.
 
 - Tasks with an owner can only be edited or deleted by that user.
+
+- Authenticated users can view a list of their tasks on their dashboard.
 
 ### Data Handling (SWR)
 The app uses SWR for data fetching:
