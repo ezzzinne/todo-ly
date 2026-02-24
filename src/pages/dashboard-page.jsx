@@ -1,5 +1,5 @@
 import { useAuth } from "@/hooks/useAuth";
-import { useTasks } from "@/hooks/useTasks";
+import { useUserTasks } from "@/hooks/useUserTasks";
 import TodoTable from "@/components/todo/todo-table";
 import { CreateTodo } from "@/components/todo/create-todo";
 import { Button } from "@/components/ui/button";
@@ -26,9 +26,9 @@ export default function DashboardPage() {
   const [status, setStatus] = useState("ALL");
   const [debouncedSearch] = useDebounce(search, 400);
   const { user } = useAuth();
-  const { todos, isLoading, isError, mutate } = useTasks(
+  const { todos, meta, isLoading, isError, mutate } = useUserTasks(
     page,
-    100,
+    15,
     debouncedSearch,
     status,
   );
@@ -36,15 +36,13 @@ export default function DashboardPage() {
 
   if (!user) return null;
 
-  const userTasks = todos.filter((todo) => todo.owner === user.id);
+  const completed = todos.filter((todo) => todo.status === "DONE").length;
 
-  const completed = userTasks.filter((todo) => todo.status === "DONE").length;
-
-  const pending = userTasks.filter(
+  const pending = todos.filter(
     (todo) => todo.status === "IN_PROGRESS" || todo.status === "TODO",
   ).length;
 
-  const cancelled = userTasks.filter((t) => t.status === "CANCELLED").length;
+  const cancelled = todos.filter((t) => t.status === "CANCELLED").length;
 
   const handleSearchChange = (value) => {
     setSearch(value);
@@ -82,9 +80,9 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
             {isLoading ? (
-              <Skeleton className="h-8 w-16" />
+              <Skeleton className="h-8 w-16 mx-auto" />
             ) : (
-              <p className="text-2xl font-bold">{userTasks.length}</p>
+              <p className="text-2xl font-bold">{todos.length}</p>
             )}
           </CardContent>
         </Card>
@@ -95,7 +93,7 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
             {isLoading ? (
-              <Skeleton className="h-8 w-16" />
+              <Skeleton className="h-8 w-16 mx-auto" />
             ) : (
               <p className="text-2xl font-bold text-green-600">{completed}</p>
             )}
@@ -108,7 +106,7 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
             {isLoading ? (
-              <Skeleton className="h-8 w-16" />
+              <Skeleton className="h-8 w-16 mx-auto" />
             ) : (
               <p className="text-2xl font-bold text-yellow-600">{pending}</p>
             )}
@@ -120,7 +118,11 @@ export default function DashboardPage() {
             <CardTitle>Cancelled</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold text-red-600">{cancelled}</p>
+            {isLoading ? (
+              <Skeleton className="h-8 w-16 mx-auto" />
+            ) : (
+              <p className="text-2xl font-bold text-red-600">{cancelled}</p>
+            )}
           </CardContent>
         </Card>
       </div>
@@ -183,7 +185,7 @@ export default function DashboardPage() {
             </div>
           )}
 
-          {!isLoading && userTasks.length === 0 && (
+          {!isLoading && todos.length === 0 && (
             <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16 text-center text-muted-foreground">
               {!search && <p>You haven't created any tasks yet.</p>}
               {search && (
@@ -199,9 +201,7 @@ export default function DashboardPage() {
             </div>
           )}
 
-          {!isLoading && userTasks.length > 0 && (
-            <TodoTable todos={userTasks} />
-          )}
+          {!isLoading && todos.length > 0 && <TodoTable todos={todos} />}
         </CardContent>
       </Card>
 
@@ -214,6 +214,28 @@ export default function DashboardPage() {
           setOpenCreate(false);
         }}
       />
+
+      <div className="flex items-center justify-between sm:justify-end gap-2 pt-2">
+        <Button
+          className="cursor-pointer"
+          variant="outline"
+          disabled={!meta?.hasPreviousPage}
+          onClick={() => setPage((page) => page - 1)}
+        >
+          Prev
+        </Button>
+        <div className="text-xs sm:text-sm text-muted-foreground px-2">
+          Page {page} of {meta?.totalPages}
+        </div>
+        <Button
+          className="cursor-pointer"
+          variant="outline"
+          disabled={!meta?.hasNextPage}
+          onClick={() => setPage((page) => page + 1)}
+        >
+          Next
+        </Button>
+      </div>
     </div>
   );
 }
