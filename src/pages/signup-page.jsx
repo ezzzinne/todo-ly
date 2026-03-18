@@ -20,8 +20,12 @@ const signupSchema = z.object({
     .regex(/[a-z]/, "Password must contain at least one lowercase letter.")
     .regex(/[0-9]/, "Password must contain at least one number.")
     .regex(
-      /[^A-Za-z0-9]/,
-      "Password must contain at least one special character.",
+      /[@$!%*?&]/,
+      "Password must contain at least one special character (@$!%*?&).",
+    )
+    .regex(
+      /^[A-Za-z0-9@$!%*?&]+$/,
+      "Password can only contain letters, numbers, and (@$!%*?&).",
     ),
 });
 
