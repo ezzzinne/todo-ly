@@ -28,7 +28,6 @@ type EditTodoDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSave: (todo: Todo) => Promise<void> | void;
-  openEdit: boolean;
 };
 
 export function EditTodoDialog({
@@ -36,7 +35,6 @@ export function EditTodoDialog({
   open,
   onOpenChange,
   onSave,
-  openEdit,
 }: EditTodoDialogProps) {
   const [form, setForm] = useState<TodoForm>({
     name: "",

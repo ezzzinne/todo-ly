@@ -227,7 +227,6 @@ export default function TodoTable({
       <EditTodoDialog
         todo={editTodo}
         open={!!editTodo}
-        openEdit={openEdit}
         onOpenChange={() => setEditTodo(null)}
         onSave={async (updatedTodo) => {
           await api.patch(`/tasks/${updatedTodo.id}`, updatedTodo);
