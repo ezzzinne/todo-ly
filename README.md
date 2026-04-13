@@ -154,7 +154,7 @@ A responsive task management application that allows users to view, create, edit
 
 ### Frontend
 - React
-- JavaScript
+- TypeScript
 - Vite
 - SWR (data fetching & cache management)
 - Axios (API requests)
