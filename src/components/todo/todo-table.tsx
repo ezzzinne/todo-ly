@@ -55,7 +55,7 @@ export default function TodoTable({
 }: TodoTableProps) {
   const [selectedTodoId, setSelectedTodoId] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
-  const [openEdit, setOpenEdit] = useState(false);
+  const [, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [editTodo, setEditTodo] = useState<Todo | null>(null);
   const [deleteTodo, setDeleteTodo] = useState<Todo | null>(null);
