@@ -15,7 +15,7 @@ import {
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "../ui/button";
 import { useAuth } from "@/hooks/useAuth";
-import type { Todo } from "./todo-table";
+import type { Todo } from "@/types/todo";
 
 type TodoRowProps = {
   todo: Todo;

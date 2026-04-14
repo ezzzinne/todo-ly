@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import type { User } from "@/context/auth-provider";
+import type { LoginCredentials } from "@/context/auth-provider";
 
 const loginSchema = z.object({
   email: z.email("Please enter a valid email."),
@@ -29,7 +29,7 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = async (data: User) => {
+  const onSubmit = async (data: LoginCredentials) => {
     try {
       await login(data);
       navigate("/dashboard");

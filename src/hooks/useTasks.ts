@@ -9,7 +9,7 @@ export type useTasksProps = {
 };
 
 export function useTasks({ page, limit, search, status }: useTasksProps) {
-  const shouldFetch = page != null;
+  const shouldFetch = page.trim().length > 0;
 
   const params = new URLSearchParams();
 

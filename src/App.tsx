@@ -21,7 +21,7 @@ function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
       <div className="text-center space-y-3">
         <h2 className="text-2xl font-bold">Oops! Something went wrong</h2>
         <p className="text-muted-foreground">
-          '{error instanceof Error ? error.message : "Something went wrong"}'
+          {error instanceof Error ? error.message : "Something went wrong"}
         </p>
         <Button className="variant cursor-pointer" onClick={resetErrorBoundary}>
           Retry

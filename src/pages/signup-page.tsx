@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import type { User } from "@/context/auth-provider";
+import type { RegisterPayload } from "@/context/auth-provider";
 
 const signupSchema = z.object({
   name: z.string(),
@@ -43,9 +43,9 @@ export default function SignupPage() {
     resolver: zodResolver(signupSchema),
   });
 
-  const onSubmit = async (data: User) => {
+  const onSubmit = async (data: RegisterPayload) => {
     try {
-      registerUser(data);
+      await registerUser(data);
       navigate("/dashboard");
     } catch (error) {
       setError("An account with this email already exists. Please log in.");

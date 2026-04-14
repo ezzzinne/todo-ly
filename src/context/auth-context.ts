@@ -9,8 +9,8 @@ type User = {
 
 type AuthContextType = {
   user: User | null;
-  login: (user: User) => void;
-  register: (user: User) => void;
+  login: (user: User) => Promise<void>;
+  register: (user: User) => Promise<void>;
   logout: () => void;
   accessToken: string | null;
 };

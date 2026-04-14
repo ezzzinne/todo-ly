@@ -67,7 +67,7 @@ export function TodoDetails({ id, open, onOpenChange }: TodoDetailsProp) {
               <div>
                 <p className="text-muted-foreground mb-1">Owner</p>
                 <p>
-                  {todo.owner === user?.id ? user?.name : todo.owner || "—"}
+                  {todo.owner === user?.id ? user?.name || "—" : todo.owner || "—"}
                 </p>
               </div>
 

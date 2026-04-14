@@ -57,7 +57,7 @@ export function EditTodoDialog({
         description: todo.description || "",
         status: todo.status || "",
         priority: todo.priority || "",
-        duration: String(todo.duration) || "",
+        duration: todo.duration == null ? "" : String(todo.duration),
         tags: todo.tags || "",
       });
     }
