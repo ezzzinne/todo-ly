@@ -45,7 +45,6 @@ export default function TodoTable({
 }: TodoTableProps) {
   const [selectedTodoId, setSelectedTodoId] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
-  const [, setOpenEdit] = useState(false);
   const [editTodo, setEditTodo] = useState<Todo | null>(null);
   const [deleteTodo, setDeleteTodo] = useState<Todo | null>(null);
   const { user } = useAuth();
@@ -64,7 +63,6 @@ export default function TodoTable({
 
   const handleOpenEdit = (todo: Todo) => {
     setEditTodo(todo);
-    setOpenEdit(true);
   };
 
   const handleOpenDelete = (todo: Todo) => {
@@ -222,7 +220,7 @@ export default function TodoTable({
       <EditTodoDialog
         todo={editTodo}
         open={!!editTodo}
-        onOpenChange={() => setEditTodo(null)}
+        onOpenChange={(open) => {if (!open) setEditTodo(null); }}
         onSave={async (updatedTodo) => {
           await api.patch(`/tasks/${updatedTodo.id}`, updatedTodo);
           revalidateTasks();
@@ -231,7 +229,7 @@ export default function TodoTable({
       />
       <ConfirmDeleteDialog
         open={!!deleteTodo}
-        onOpenChange={() => setDeleteTodo(null)}
+        onOpenChange={(open) => { if (!open) setDeleteTodo(null); }}
         onConfirm={async () => {
           if (deleteTodo) {
             await api.delete(`/tasks/${deleteTodo.id}`);
