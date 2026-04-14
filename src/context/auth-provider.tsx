@@ -6,11 +6,21 @@ type AuthProviderProps = {
   children: React.ReactNode;
 };
 
-export type User = {
+export type AuthUser = {
   name?: string;
   email: string;
-  password: string | number;
   id?: string;
+};
+
+export type LoginCredentials = {
+  email: string;
+  password: string;
+};
+
+export type RegisterPayload = {
+  name: string;
+  email: string;
+  password: string;
 };
 
 export function AuthProvider({ children }: AuthProviderProps) {
@@ -23,7 +33,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return localStorage.getItem("accessToken");
   });
 
-  const login = async (credentials: User) => {
+  const login = async (credentials: AuthUser) => {
     const { data } = await api.post("/auth/login", credentials);
 
     setUser(data.user);
@@ -32,7 +42,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     localStorage.setItem("accessToken", data.accessToken);
   };
 
-  const register = async (payload: User) => {
+  const register = async (payload: AuthUser) => {
     const { data } = await api.post("/auth/register", payload);
 
     setUser(data.user);

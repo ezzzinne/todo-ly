@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "../ui/label";
-import type { Todo } from "./todo-table";
+import type { Todo } from "@/types/todo";
 
 type TodoForm = Omit<Todo, "duration" | "id"> & {
   duration: string;

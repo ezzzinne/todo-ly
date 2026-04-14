@@ -17,8 +17,6 @@ import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 
-// const PER_PAGE = 10;
-
 export default function TodoPage() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
@@ -105,7 +103,6 @@ export default function TodoPage() {
         isLoading={isLoading}
         isError={isError}
         search={search}
-        // mutate={mutate}
       />
 
       <CreateTodo

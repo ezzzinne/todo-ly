@@ -28,17 +28,7 @@ import { useState } from "react";
 import TodoRow from "./todo-row";
 import { TodoDetails } from "./todo-details";
 import { Spinner } from "../ui/spinner";
-
-export type Todo = {
-  name: string;
-  description: string;
-  status: string;
-  priority: string;
-  duration: number;
-  tags: string;
-  owner?: string;
-  id: string;
-};
+import type { Todo } from "@/types/todo";
 
 type TodoTableProps = {
   todos: Todo[];
@@ -56,10 +46,16 @@ export default function TodoTable({
   const [selectedTodoId, setSelectedTodoId] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   const [, setOpenEdit] = useState(false);
-  const [openDelete, setOpenDelete] = useState(false);
   const [editTodo, setEditTodo] = useState<Todo | null>(null);
   const [deleteTodo, setDeleteTodo] = useState<Todo | null>(null);
   const { user } = useAuth();
+
+  const revalidateTasks = () =>
+    mutate(
+      (key) => typeof key === "string" && key.startsWith("/tasks"),
+      undefined,
+      { revalidate: true },
+    );
 
   const handleOpen = (todoId: string) => {
     setSelectedTodoId(todoId);
@@ -73,7 +69,6 @@ export default function TodoTable({
 
   const handleOpenDelete = (todo: Todo) => {
     setDeleteTodo(todo);
-    setOpenDelete(true);
   };
 
   const canModify = (todo: Todo) => {
@@ -230,18 +225,17 @@ export default function TodoTable({
         onOpenChange={() => setEditTodo(null)}
         onSave={async (updatedTodo) => {
           await api.patch(`/tasks/${updatedTodo.id}`, updatedTodo);
-          await mutate("/tasks");
+          revalidateTasks();
           setEditTodo(null);
         }}
       />
       <ConfirmDeleteDialog
         open={!!deleteTodo}
-        openDelete={openDelete}
         onOpenChange={() => setDeleteTodo(null)}
         onConfirm={async () => {
           if (deleteTodo) {
             await api.delete(`/tasks/${deleteTodo.id}`);
-            await mutate("/tasks");
+            revalidateTasks();
             setDeleteTodo(null);
           }
         }}

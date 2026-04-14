@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/select";
 import { useDebounce } from "use-debounce";
 import { Spinner } from "@/components/ui/spinner";
-import type { Todo } from "../components/todo/todo-table";
+import type { Todo } from "@/types/todo";
 
 export default function DashboardPage() {
   const [page, setPage] = useState(1);

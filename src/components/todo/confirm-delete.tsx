@@ -13,7 +13,6 @@ type ConfirmDeleteDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onConfirm: () => void;
-  openDelete: boolean;
 };
 
 export function ConfirmDeleteDialog({
