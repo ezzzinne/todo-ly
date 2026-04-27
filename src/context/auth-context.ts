@@ -3,7 +3,6 @@ import { createContext } from "react";
 type User = {
   name?: string;
   email: string;
-  password: string | number;
   id?: string;
 };
 
@@ -13,6 +12,9 @@ type AuthContextType = {
   register: (user: User) => Promise<void>;
   logout: () => void;
   accessToken: string | null;
+  refreshToken: string | null;
+  isAuthenticated: boolean;
+  isCheckingAuth: boolean;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(

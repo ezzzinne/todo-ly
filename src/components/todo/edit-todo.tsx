@@ -19,7 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "../ui/label";
 import type { Todo } from "@/types/todo";
 
-type TodoForm = Omit<Todo, "duration" | "id"> & {
+type TodoForm = Omit<Todo, "duration" | "id" | "createdAt"> & {
   duration: string;
 };
 

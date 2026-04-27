@@ -1,3 +1,4 @@
 import { api } from "./axios";
 
-export const fetcher = (url: string) => api.get(url).then((res) => res.data);
+export const fetcher = <T>(url: string): Promise<T> =>
+  api.get<T>(url).then((res) => res.data);

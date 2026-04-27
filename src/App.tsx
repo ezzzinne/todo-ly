@@ -50,7 +50,7 @@ function App() {
           <Routes>
             <Route path="*" element={<NotFound />} />
             <Route path="/" element={<HomePage />} />
-            <Route path="/todo" element={<TodoPage></TodoPage>} />
+            <Route path="/todo" element={<TodoPage />} />
             <Route
               path="/dashboard"
               element={

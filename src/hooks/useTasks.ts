@@ -1,5 +1,6 @@
 import useSWR from "swr";
 import { fetcher } from "@/lib/fetcher";
+import type { ApiResponse, Todo } from "@/types/todo";
 
 export type useTasksProps = {
   page: string;
@@ -9,7 +10,7 @@ export type useTasksProps = {
 };
 
 export function useTasks({ page, limit, search, status }: useTasksProps) {
-  const shouldFetch = page.trim().length > 0;
+  const shouldFetch = !isNaN(Number(page)) && page.trim() !== "";
 
   const params = new URLSearchParams();
 
@@ -21,7 +22,7 @@ export function useTasks({ page, limit, search, status }: useTasksProps) {
 
   const query = params.toString();
 
-  const { data, error, isLoading, mutate } = useSWR(
+  const { data, error, isLoading, mutate } = useSWR<ApiResponse<Todo[]>>(
     shouldFetch ? `/tasks?${query}` : null,
     fetcher,
     {
