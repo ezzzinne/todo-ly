@@ -1,4 +1,5 @@
 import { createContext } from "react";
+import type { LoginCredentials, RegisterPayload } from "./auth-provider";
 
 type User = {
   name?: string;
@@ -8,8 +9,8 @@ type User = {
 
 type AuthContextType = {
   user: User | null;
-  login: (user: User) => Promise<void>;
-  register: (user: User) => Promise<void>;
+  login: (credentials: LoginCredentials) => Promise<void>;
+  register: (payload: RegisterPayload) => Promise<void>;
   logout: () => void;
   accessToken: string | null;
   refreshToken: string | null;

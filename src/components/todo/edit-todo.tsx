@@ -69,10 +69,15 @@ export function EditTodoDialog({
 
       if (!todo) return;
 
+      const parsedDuration = Number(form.duration);
+      if (form.duration.trim() === "" || Number.isNaN(parsedDuration)) {
+        return;
+      }
+
       await onSave({
         ...todo,
         ...form,
-        duration: Number(form.duration),
+        duration: parsedDuration,
       });
     } catch (error) {
       console.error(error);

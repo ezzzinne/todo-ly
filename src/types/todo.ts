@@ -4,7 +4,7 @@ export type Todo = {
   status: string;
   priority: string;
   duration: number;
-  tags: string;
+  tags: string | string[];
   owner?: string;
   id: string;
   createdAt: number;
