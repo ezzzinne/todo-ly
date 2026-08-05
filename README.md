@@ -154,7 +154,7 @@ A responsive task management application that allows users to view, create, edit
 
 ### Frontend
 - React
-- JavaScript
+- TypeScript
 - Vite
 - SWR (data fetching & cache management)
 - Axios (API requests)
@@ -177,26 +177,26 @@ A responsive task management application that allows users to view, create, edit
  ├── components/
  │    ├── todo/
  │    ├── ui/
- │    ├── navbar.jsx
- │    ├── protected-route.jsx
+ │    ├── navbar.tsx
+ │    ├── protected-route.tsx
  ├── context/
- │    ├── auth-context.js
- │    ├── auth-provider.jsx
+ │    ├── auth-context.ts
+ │    ├── auth-provider.tsx
  ├── hooks/
- │    └── useAuth.js
- │    ├── useTask.js
- │    ├── useTasks.js
+ │    └── useAuth.ts
+ │    ├── useTask.ts
+ │    ├── useTasks.ts
  ├── lib/
- │    ├── axios.js
- │    └── fetcher.js
+ │    ├── axios.ts
+ │    └── fetcher.ts
  ├── pages/
- │    └── dashboard-page.jsx
- │    └── home-page.jsx
- │    ├── login-page.jsx
- │    ├── not-found.jsx
- │    ├── signup-page.jsx
- │    ├── todo-page.jsx
- └── App.jsx
+ │    └── dashboard-page.tsx
+ │    └── home-page.tsx
+ │    ├── login-page.tsx
+ │    ├── not-found.tsx
+ │    ├── signup-page.tsx
+ │    ├── todo-page.tsx
+ └── App.tsx
 ```
 
 ---
@@ -275,7 +275,7 @@ useSWR(`/tasks?${query}`, fetcher)
 After editing or deleting a task:
 
 ```bash
-await mutate();
+revalidateTasks();
 ```
 
 This revalidates the cache and updates the UI instantly without a page refresh.
